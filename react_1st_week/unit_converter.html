@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<body>
+    <div id="root"></div>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script type="text/babel">
+        const root = document.getElementById('root')
+        const App = () => {
+            const [amoutnt, setAmount] = React.useState()
+            const [flipped, setFlipped] = React.useState(false)
+            const onChange = (event) => {
+                setAmount(event.target.value)
+            }
+            const reset = () => setAmount(0)
+            const onFlip = () => {
+                reset()
+                setFlipped((current) => !current)
+            }
+            return (
+                <div>
+                    <h1 className="hi">Super Converter</h1>
+                    <div>
+                        <label htmlFor="min">Minutes</label>
+                        <input value={flipped ? amoutnt*60 : amoutnt} 
+                        id="min" placeholder="Minutes" type="number" 
+                        onChange={onChange} disabled={flipped === true}/>
+                    </div>
+                    <div>
+                        <label htmlFor="hours">Hours</label>
+                        <input value={flipped ? amoutnt: Math.round(amoutnt/60)} 
+                        id="hours" placeholder="Hours" type="number" 
+                        onChange={onChange}
+                        disabled={flipped === false}/>
+                    </div>
+                    <button onClick={reset}>{flipped ? 'Turn back' : 'Invert'}</button>
+                    <button onClick={onFlip}>Flipped</button>
+
+                </div>
+            )
+        }
+        ReactDOM.render(<App/>, root)
+    </script>
+</body>
+</html>
