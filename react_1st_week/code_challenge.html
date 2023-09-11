@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css"
+    />
+    <style>
+      body {
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function Calculator() {
+      const [firstNum, setFirstNum] = React.useState(0);
+      const [secondNum, setSecondNum] = React.useState(0);
+      const [operation, setOperation] = React.useState("default");
+      const [clicked, setClicked] = React.useState(false);
+      const [result, setResult] = React.useState(0);
+
+      const onFirstNumChange = (event) =>
+        setFirstNum(Number(event.target.value));
+      const onSecondNumChange = (event) =>
+        setSecondNum(Number(event.target.value));
+      const onSelect = (event) => setOperation(event.target.value);
+      const onCalculate = () => {
+        switch (operation) {
+          case "+":
+            setResult(firstNum + secondNum);
+            setClicked(true);
+            break;
+          case "-":
+            setResult(firstNum - secondNum);
+            setClicked(true);
+            break;
+          case "/":
+            setResult(secondNum == 0 ? 0 : firstNum / secondNum);
+            setClicked(true);
+            break;
+          case "*":
+            setResult(firstNum * secondNum);
+            setClicked(true);
+            break;
+          default:
+            console.log("Please Select Operation.");
+            setResult(0);
+            setClicked(false);
+            break;
+        }
+      };
+
+      return (
+        <div>
+          <input
+            type="number"
+            onChange={onFirstNumChange}
+            placeholder="👉🏻Write a number..."
+          />
+          <input
+            type="number"
+            onChange={onSecondNumChange}
+            placeholder="👉🏻And another one..."
+          />
+          <select value={operation} onChange={onSelect}>
+            <option value="default">👉🏻Select operation</option>
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="/">/</option>
+            <option value="*">*</option>
+          </select>
+          <button onClick={onCalculate}>Calculate</button>
+          {clicked ? <h1>The result is: {result}</h1> : null}
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <div className="container">
+          <h1>🔥 Calculator 🔥</h1>
+          <Calculator />
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
